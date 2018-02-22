@@ -1,0 +1,25 @@
+{
+  "name": "simple-fullstack-app",
+  "version": "1.0.0",
+  "description": "Simple full-stack app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manueldziuba/simple-fullstack-app.git"
+  },
+  "keywords": [
+    "fullstack",
+    "node",
+    "postgres",
+    "angular"
+  ],
+  "author": "Manuel Dziuba",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/manueldziuba/simple-fullstack-app/issues"
+  },
+  "homepage": "https://github.com/manueldziuba/simple-fullstack-app#readme"
+}
