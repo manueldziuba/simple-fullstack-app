@@ -1,9 +1,8 @@
 const assert = require('assert')
 const sinon = require('sinon')
-const request = require('supertest')
 
-// The application
-const app = require('../index')
+const validationService = require('../services/validationService')
+const ListController = require('../controllers/list')
 
 // Fixtures to test
 const fixtureDataServiceResults = {
@@ -16,118 +15,59 @@ const fixtureDataServiceResults = {
   byColor:      require('./dataServiceResultByColor')
 }
 
-describe('App server', done => {
+describe('GET /api/data', done => {
+  let listController
   let mock = {}
 
   beforeEach(() => {
+    mock.config = {
+
+    }
     mock.logger = {
       info: sinon.stub(),
       warn: sinon.stub()
     }
     mock.dataService = {
-      getDataFromDb: sinon.stub().resolves()
+      getAllData: sinon.stub().resolves()
     }
+
+    listController = new ListController(mock.config, mock.dataService, validationService)
   })
 
   afterEach(() => {
+    listController = null
+    mock.dataService.getAllData = null
   })
 
-  it('should return HTTP status 404 on invalid path', done => {
-    request(app)
-      .get('/invalid')
-      .expect(404)
-      .end((err, res) => {
-        assert.deepEqual(res.body, { success: false, message: 'Not Found' })
+  it('should query with "sorting by id" when no "sort" param given', done => {
+    listController.getData({})
+      .then(result => {
+        sinon.assert.calledWith(mock.dataService.getAllData, 'id')
+        done()
+      })
+      .catch(err => {
+        assert.ifError(err)
         done()
       })
   })
 
-  it('should return HTTP status 200 on GET /api/data', done => {
-    request(app)
-      .get('/api/data')
-      .expect(200)
-      .end((err, res) => {
-        assert(res.body.success, true, 'Response JSON should have key "success" with value TRUE')
+  it('should split up filter params into dates', done => {
+    const dates = ['3/16/2017', '9/3/2017']
+    const params = {
+      sort: 'id',
+      filter: dates.join(',')
+    }
+
+    listController.getData(params)
+      .then(result => {
+        const spyCall = mock.dataService.getAllData.getCall(0)
+        assert.equal(spyCall.args[0], 'id', 'First arguments should be "id"')
+        assert.equal(spyCall.args[1], dates[0], `Second arguments should be "${dates[0]}"`)
+        assert.equal(spyCall.args[2], dates[1], `Second arguments should be "${dates[1]}"`)
         done()
       })
-  })
-
-  it('should return data sorted by "id" when no "sort" param given on GET /api/data', done => {
-    request(app)
-      .get('/api/data')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byId)
-        done()
-      })
-  })
-
-  it('should return data sorted by "id" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=id')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byId)
-        done()
-      })
-  })
-
-  it('should return data sorted by "city" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=city')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byCity)
-        done()
-      })
-  })
-
-  it('should return data sorted by "start_date" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=start_date')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byStartDate)
-        done()
-      })
-  })
-
-  it('should return data sorted by "end_date" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=end_date')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byEndDate)
-        done()
-      })
-  })
-
-  it('should return data sorted by "price" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=price')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byPrice)
-        done()
-      })
-  })
-
-  it('should return data sorted by "status" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=status')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byStatus)
-        done()
-      })
-  })
-
-  it('should return data sorted by "color" on GET /api/data', done => {
-    request(app)
-      .get('/api/data?sort=color')
-      .expect(200)
-      .end((err, res) => {
-        assert.deepEqual(res.body, fixtureDataServiceResults.byColor)
+      .catch(err => {
+        assert.ifError(err)
         done()
       })
   })

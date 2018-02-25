@@ -1,4 +1,9 @@
 module.exports = {
   port: 5000,
-  logLevel: 'info'
+  logLevel: 'info',
+  database: {
+    host: 'db',
+    username: 'root',
+    password: '---'
+  }
 }
