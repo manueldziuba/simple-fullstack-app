@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  db:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_PASSWORD=P05tgr3s/pw
+    ports:
+      - "5432:5432"
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.debug
+    ports:
+      - "5000:5000"
+    links:
+      - db:docker_postgres_db
+    volumes:
+      - .:/home/node
+    command: [ "npm", "run", "dev:docker" ]
+    depends_on:
+      - db

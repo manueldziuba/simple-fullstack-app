@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "test": "istanbul cover _mocha ./server/test/**/*.test.js"
+    "test": "istanbul cover _mocha ./server/test/**/*.test.js",
+    "load:data": "node scripts/initializeDatabase.js",
+    "dev:docker": "nodemon server/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +29,7 @@
   },
   "homepage": "https://github.com/manueldziuba/simple-fullstack-app#readme",
   "devDependencies": {
+    "@angular/cli": "^1.7.1",
     "eslint": "^4.18.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.9.0",
@@ -35,10 +38,12 @@
     "eslint-plugin-standard": "^3.0.1",
     "istanbul": "^0.4.5",
     "mocha": "^5.0.1",
+    "nodemon": "^1.15.1",
     "sinon": "^4.3.0",
     "supertest": "^3.0.0"
   },
   "dependencies": {
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "bunyan": "^1.8.12",
     "express": "^4.16.2",
