@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "test": "istanbul server/.istanbul.yml cover _mocha ./server/test"
+    "test": "istanbul cover _mocha ./server/test/**/*.test.js"
   },
   "repository": {
     "type": "git",

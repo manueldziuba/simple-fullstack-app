@@ -4,7 +4,9 @@ const pg = require('pg')
 
 class DataService {
   constructor(databaseConfig) {
-    this.pool = new pg.Pool(databaseConfig)
+    if (databaseConfig) {
+      this.pool = new pg.Pool(databaseConfig)
+    }
   }
 
   getAllData(sortBy, filterStartDate = null, filterEndDate = null) {
