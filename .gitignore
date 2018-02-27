@@ -8,3 +8,9 @@ _logs
 /.vscode
 /.npm
 .bash_history
+/client/dist
+npm-debug.log
+/client/e2e/*.js
+/client/e2e/*.map
+.DS_Store
+Thumbs.db
