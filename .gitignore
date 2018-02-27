@@ -1,8 +1,10 @@
 .DS_Store
 /coverage/
 logs
+_logs
 *.log
 /node_modules/
 /.config/
 /.vscode
+/.npm
 .bash_history
