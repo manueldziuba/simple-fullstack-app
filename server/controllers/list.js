@@ -52,11 +52,13 @@ class ListController {
         return reject(err)
       }
 
+      // Build arguments
       let args = [validationResult.params.sort]
       if (validationResult.params.filter) {
           args = args.concat(validationResult.params.filter)
       }
 
+      // Get data
       this.dataService.getAllData(...args)
         .then(rows => {
           resolve(rows)

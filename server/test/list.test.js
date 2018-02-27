@@ -52,7 +52,7 @@ describe('GET /api/data', done => {
   })
 
   it('should split up filter params into dates', done => {
-    const dates = ['3/16/2017', '9/3/2017']
+    const dates = ['2017-03-16', '2017-09-03']
     const params = {
       sort: 'id',
       filter: dates.join(',')
