@@ -17,6 +17,8 @@ services:
       - db:docker_postgres_db
     volumes:
       - .:/home/node
-    command: [ "npm", "run", "dev:docker" ]
+    environment:
+      - PGPASSWORD=P05tgr3s/pw
+    command: [ "npm", "run", "start:docker_debug" ]
     depends_on:
       - db

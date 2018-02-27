@@ -1,6 +1,4 @@
-CREATE DATABASE %DBNAME% ENCODING 'UTF8';
-
-CREATE TABLE %TBLNAME% (
+CREATE TABLE IF NOT EXISTS %TBLNAME% (
   "id"         serial PRIMARY KEY,
   "city"       varchar(50) NOT NULL,
   "start_date" date,

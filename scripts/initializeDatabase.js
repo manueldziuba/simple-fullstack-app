@@ -4,69 +4,50 @@ const fs = require('fs')
 const path = require('path')
 const pg = require('pg')
 const Promise = require('bluebird')
+
 const config = require('../server/config')
 const DatabaseInitializer = require('../server/services/databaseInitializer')
 const data = require('./data.json')
 
 const dbName = config.database.database
 const tblName = 'entries'
-const dbInitFile = path.join(__dirname, 'db_init.sql')
+const dbInitFile = path.join(__dirname, 'db_init.sql');
 
 // Promisify fs.readFile to use async/await
-var readFileAsync = Promise.promisify(require('fs').readFile)
+var readFileAsync = Promise.promisify(fs.readFile);
 
-async function readSqlFile(filePath, dbName, tblName) {
-  let txt = await readFileAsync(filePath, 'utf8')
-  return txt
-}
-
-/*
 const readSqlFile = (filePath, dbName, tblName) => {
-  return new Promise((resolve, reject) => {
-    readFileAsync(filePath, 'utf8')
-      .then(content => {
-        console.warn('HIER')
-        content = content
-          .replace('%DBNAME%', dbName)
-          .replace('%TBLNAME%', tblName)
-        console.log('CONTENT', content)
-        resolve(content)
-      })
-      .catch(err => {
-        reject(err)
-      })
+  return new Promise(async (resolve, reject) => {
+    try {
+      let content = await readFileAsync(filePath, 'utf8')
+      content = content
+        .replace('%DBNAME%', dbName)
+        .replace('%TBLNAME%', tblName)
+      resolve(content)
+    } catch(err) {
+      reject(err)
+    }
   })
 }
-*/
 
 console.log('Initializing the database......\n')
 
 try {
   const pgPool = pg.Pool(config.database)
-  const dbInitializer = new DatabaseInitializer(pgPool, dbName)
+  const dbInitializer = new DatabaseInitializer(pgPool, dbName, tblName)
 
-  // Read init SQL from static file
-  const dbSql = readSqlFile(dbInitFile, dbName, tblName)
-  console.log('dbSql = ', dbSql)
-
-  /*
-    .then(dbSql => {
-      console.log(`Run SQL to initialize db (in Docker):`, dbSql)
-
-      dbInitializer.runSql(dbSql)
-        .then(success => {
-
-        })
-      
+  readSqlFile(dbInitFile, dbName, tblName)
+    .then(dbInitializer.runSql.bind(dbInitializer))
+    .then(dbInitializer.loadData.bind(dbInitializer, tblName, data))
+    .then(() => {
+      console.log(`Successfully initialized database structure`)
+      process.exit(0)
     })
-  */
-  
-  
-  console.log(`Successfully initialized database structure`)
+    .catch(err => {
+      throw err
+    })
 
 } catch (err) {
   console.error(err)
   process.exit(1)
 }
-
-process.exit(0)

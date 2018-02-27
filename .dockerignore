@@ -1,0 +1,5 @@
+.bash_history
+coverage
+node_modules
+.npm
+.config

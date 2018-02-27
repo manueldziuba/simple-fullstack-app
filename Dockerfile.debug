@@ -3,6 +3,8 @@ FROM node:8
 ENV TERM=xterm
 ENV NODE_ENV=development
 
+RUN apt-get update && apt-get install -y postgresql-client
+
 USER node
 WORKDIR /home/node
 
