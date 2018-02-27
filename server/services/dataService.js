@@ -9,7 +9,7 @@ class DataService {
     }
   }
 
-  getAllData(sortBy, filterStartDate = null, filterEndDate = null) {
+  getAllData(sortBy, sortOrder, filterStartDate = null, filterEndDate = null) {
     return new Promise((resolve, reject) => {
       let sql = 'SELECT * FROM entries'
       const params = []
@@ -19,7 +19,7 @@ class DataService {
         params.push(filterStartDate)
         params.push(filterEndDate)
       }
-      sql += ` ORDER BY ${sortBy}`
+      sql += ` ORDER BY ${sortBy} ${sortOrder.toUpperCase()}`
 
       this.pool.query(sql, params)
         .then(result => {

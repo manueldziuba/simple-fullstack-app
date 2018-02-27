@@ -9,6 +9,6 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   loadData(sortColumn, sortOrder) {
-    return this.http.get(`${this.apiUrl}?sort=${sortColumn}&order=${sortOrder}`);
+    return this.http.get(`${this.apiUrl}?sort=${sortColumn}:${sortOrder}`);
   }
 }

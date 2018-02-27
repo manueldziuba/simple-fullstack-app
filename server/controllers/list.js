@@ -17,9 +17,8 @@ class ListController {
     // Check param "sort"
     if (!params.sort ||
       !this.validationService.isValidSortKey(params.sort)) {
-        params.sort = 'id' // set default
+        params.sort = 'id:asc' // set default
     }
-
 
     // Check filter
     if (params.filter) {
@@ -52,8 +51,11 @@ class ListController {
         return reject(err)
       }
 
+      // Split sort
+      let [ sortBy, sortOrder ] = validationResult.params.sort.split(':')
+
       // Build arguments
-      let args = [validationResult.params.sort]
+      let args = [ sortBy, sortOrder ]
       if (validationResult.params.filter) {
           args = args.concat(validationResult.params.filter)
       }

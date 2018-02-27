@@ -13,7 +13,8 @@ module.exports = {
     'color'
   ],
   isValidSortKey: (key) => {
-    return module.exports.SORT_ITEMS.includes(key)
+    const [ sortBy, sortOrder ] = key.split(':')
+    return module.exports.SORT_ITEMS.includes(sortBy) && ['asc', 'desc'].includes(sortOrder.toLowerCase())
   },
   isValidDate: (value) => {
     return moment(value).isValid()
