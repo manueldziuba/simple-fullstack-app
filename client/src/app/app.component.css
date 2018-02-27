@@ -1,5 +1,8 @@
 nav { margin-bottom: 40px; }
+
 #preloader { margin: 200px auto 100px auto; }
+
+#filterbar input:not([type]) { margin: inherit !important; height: inherit !important; }
 
 #listing th { cursor: pointer; }
 .sorter { display: inline-block; width: 20px; line-height: 20px; }

@@ -13,7 +13,7 @@
   </nav>
 
   <!-- Preloader -->
-  <div class="row" id="preloader" *ngIf="isDataLoaded==false">
+  <div class="row" id="preloader" *ngIf="isLoaded==false">
     <div class="col s4"> </div>
     <div class="col s4 center-align">
       <div class="preloader-wrapper big active">
@@ -34,12 +34,25 @@
   </div>
 
   <!-- Filtering -->
-  <div class="row" id="filterbar" *ngIf="tblEntries.length==0">
-    <div class="col s12"> </div>
+  <div class="row" id="filterbar" *ngIf="isLoaded">
+    <div class="col s12">
+      <span>Filter by dates: </span>
+      <mat-form-field>
+        <input matInput [matDatepicker]="filterStartdatePicker" (dateChange)="setFilterStartDate($event)" placeholder="Choose a start date">
+        <mat-datepicker-toggle matSuffix [for]="filterStartdatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #filterStartdatePicker startView="year" [startAt]="tblFilterDateStart"></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput [matDatepicker]="filterEnddatePicker" [min]="tblFilterDateStart" (dateChange)="setFilterEndDate($event)" placeholder="Choose an end date">
+        <mat-datepicker-toggle matSuffix [for]="filterEnddatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #filterEnddatePicker startView="year" [startAt]="tblFilterDateEnd"></mat-datepicker>
+      </mat-form-field>
+
+    </div>
   </div>
 
   <!-- Table Listing -->
-  <div class="row" id="listing" *ngIf="tblEntries.length>0">
+  <div class="row" id="listing" *ngIf="isLoaded">
     <div class="col s12">
       <table class="highlight responsive-table">
         <thead>
@@ -60,6 +73,9 @@
             <td>{{entry.price}}</td>
             <td>{{entry.status}}</td>
             <td><span class="color-tag"></span> {{entry.color}}</td>
+          </tr>
+          <tr *ngIf="tblEntries.length==0">
+            <td colspan="6" class="center-align">There are no entries to show - change filters.</td>
           </tr>
         </tbody>
       </table>
