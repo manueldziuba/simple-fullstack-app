@@ -1,6 +1,7 @@
 'use strict';
 
 // Get modules
+const path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
@@ -22,6 +23,9 @@ const logger = bunyan.createLogger({
   level: config.logLevel || 'info'
 })
 
+// Serve Angular app (frontend)
+app.use(express.static(path.join(__dirname, '..', 'client', 'dist')))
+
 // DataService instance (Postgres data connection)
 const dataService = new DataService(config.database)
 
@@ -30,9 +34,6 @@ const listController = new ListController(config, dataService, validationService
 
 // GET Verb: list data
 app.get('/api/data', listController.request.bind(listController))
-
-// Serve Angular app (frontend)
-app.use(express.static('../client/dist', {}))
 
 // Invalid routes (404 Not Found)
 app.all('*', (req, res, next) => {
