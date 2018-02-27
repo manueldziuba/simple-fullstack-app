@@ -44,7 +44,6 @@
       <table class="highlight responsive-table">
         <thead>
           <tr>
-              <th (click)="sortBy('id')"># <span class="sorter" [class.active-asc]="tblSortColumn=='id' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='id' && tblSortOrder=='desc'"></span></th>
               <th (click)="sortBy('city')">City <span class="sorter" [class.active-asc]="tblSortColumn=='city' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='city' && tblSortOrder=='desc'"></span></th>
               <th (click)="sortBy('start_date')">Start Date <span class="sorter" [class.active-asc]="tblSortColumn=='start_date' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='start_date' && tblSortOrder=='desc'"></span></th>
               <th (click)="sortBy('end_date')">End Date <span class="sorter" [class.active-asc]="tblSortColumn=='end_date' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='end_date' && tblSortOrder=='desc'"></span></th>
@@ -55,7 +54,6 @@
         </thead>
         <tbody>
           <tr *ngFor="let entry of tblEntries">
-            <td>{{entry.id}}</td>
             <td>{{entry.city}}</td>
             <td>{{entry.start_date}}</td>
             <td>{{entry.end_date}}</td>
