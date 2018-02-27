@@ -4,17 +4,6 @@ const sinon = require('sinon')
 const validationService = require('../services/validationService')
 const ListController = require('../controllers/list')
 
-// Fixtures to test
-const fixtureDataServiceResults = {
-  byId:         require('./dataServiceResultById'),
-  byCity:       require('./dataServiceResultByCity'),
-  byStartDate:  require('./dataServiceResultByStartdate'),
-  byEndDate:    require('./dataServiceResultByEnddate'),
-  byPrice:      require('./dataServiceResultByPrice'),
-  byStatus:     require('./dataServiceResultByStatus'),
-  byColor:      require('./dataServiceResultByColor')
-}
-
 describe('GET /api/data', done => {
   let listController
   let mock = {}
