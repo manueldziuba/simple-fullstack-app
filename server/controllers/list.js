@@ -16,19 +16,24 @@ class ListController {
 
     // Check param "sort"
     if (!params.sort ||
-      this.validationService.isValidSortKey(params.sort) === -1) {
+      !this.validationService.isValidSortKey(params.sort)) {
         params.sort = 'id' // set default
     }
+
 
     // Check filter
     if (params.filter) {
       let filterValuesAreDates = true
       params.filter.forEach(val => {
-        if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(val) === false) {
+        if (this.validationService.isValidDate(val) === false) {
           filterValuesAreDates = false
           return false
         }
       })
+      const isDateRangeValid = this.validationService.isDateBefore(...params.filter)
+      if (filterValuesAreDates === false || isDateRangeValid === false) {
+        result = false
+      }
     }
 
     return { valid:result, params:params }
@@ -51,6 +56,7 @@ class ListController {
       if (validationResult.params.filter) {
           args = args.concat(validationResult.params.filter)
       }
+
       this.dataService.getAllData(...args)
         .then(rows => {
           resolve(rows)
@@ -62,9 +68,9 @@ class ListController {
   }
 
   request (req, res, next) {
-    this.getData(req.params)
+    this.getData(req.query)
       .then(result => {
-        res.json({ success:true, data:rows })
+        res.json({ success:true, data:result })
       })
       .catch(err => {
         if (err.httpStatusCode) {
