@@ -13,7 +13,7 @@
   </nav>
 
   <!-- Preloader -->
-  <div class="row" id="preloader">
+  <div class="row" id="preloader" *ngIf="isDataLoaded==false">
     <div class="col s4"> </div>
     <div class="col s4 center-align">
       <div class="preloader-wrapper big active">
@@ -34,27 +34,35 @@
   </div>
 
   <!-- Filtering -->
-  <div class="row" id="filterbar">
+  <div class="row" id="filterbar" *ngIf="tblEntries.length==0">
     <div class="col s12"> </div>
   </div>
 
   <!-- Table Listing -->
-  <div class="row" id="listing">
+  <div class="row" id="listing" *ngIf="tblEntries.length>0">
     <div class="col s12">
       <table class="highlight responsive-table">
         <thead>
           <tr>
-              <th>#</th>
-              <th>City</th>
-              <th>Start Date</th>
-              <th>End Date</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Color</th>
+              <th (click)="sortBy('id')"># <span class="sorter" [class.active-asc]="tblSortColumn=='id' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='id' && tblSortOrder=='desc'"></span></th>
+              <th (click)="sortBy('city')">City <span class="sorter" [class.active-asc]="tblSortColumn=='city' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='city' && tblSortOrder=='desc'"></span></th>
+              <th (click)="sortBy('start_date')">Start Date <span class="sorter" [class.active-asc]="tblSortColumn=='start_date' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='start_date' && tblSortOrder=='desc'"></span></th>
+              <th (click)="sortBy('end_date')">End Date <span class="sorter" [class.active-asc]="tblSortColumn=='end_date' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='end_date' && tblSortOrder=='desc'"></span></th>
+              <th (click)="sortBy('price')">Price <span class="sorter" [class.active-asc]="tblSortColumn=='price' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='price' && tblSortOrder=='desc'"></span></th>
+              <th (click)="sortBy('status')">Status <span class="sorter" [class.active-asc]="tblSortColumn=='status' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='status' && tblSortOrder=='desc'"></span></th>
+              <th (click)="sortBy('color')">Color <span class="sorter" [class.active-asc]="tblSortColumn=='color' && tblSortOrder=='asc'" [class.active-desc]="tblSortColumn=='color' && tblSortOrder=='desc'"></span></th>
           </tr>
         </thead>
         <tbody>
-          <!-- Here goes the loaded server data --> 
+          <tr *ngFor="let entry of tblEntries">
+            <td>{{entry.id}}</td>
+            <td>{{entry.city}}</td>
+            <td>{{entry.start_date}}</td>
+            <td>{{entry.end_date}}</td>
+            <td>{{entry.price}}</td>
+            <td>{{entry.status}}</td>
+            <td><span class="color-tag"></span> {{entry.color}}</td>
+          </tr>
         </tbody>
       </table>
     </div>
