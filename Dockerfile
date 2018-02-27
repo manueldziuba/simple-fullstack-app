@@ -5,6 +5,9 @@ FROM node:8
 ENV TERM=xterm
 ENV NODE_ENV=production
 
+# Install postgresql client for loading sample data on container startup
+RUN apt-get update && apt-get install -y postgresql-client
+
 # By default, Docker runs container as root - we restrict the app to run restricted
 USER node
 WORKDIR /home/node
