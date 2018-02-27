@@ -9,12 +9,14 @@ Follow the instructions to get it running with Docker.
 
 ## Requirements
 
-To run this app, make sure Docker (+ CLI) is installed on your system.
+Make sure Docker (+ CLI) is installed on your system.
+For local development, you also need the npm package `@angular/cli` globally installed:
 
-## Installation
+	npm install -g @angular/cli
 
-To run the app, simple change your current directory to the project folder 
-(where this README lives) and run the following command:
+## Run the app
+
+To run the app, simple run the following command in the projects root folder:
 
 	docker-compose up
 
@@ -39,3 +41,8 @@ There is a special `docker-compose.debug.yml` file that can be used to start a D
 Docker will start up with a Postgres database container and a container running Node.js and the app (server + client).
 The second command shows the application logs.
 
+To directly see made changes in Angular (client), you can use the following command (in the project's root folder) to bring up a separated webserver with watcher:
+
+	ng serve --port 5001
+
+So you can open http://localhost:5001/ for the frontend and http://localhost:5000/api/data for the backend in parallel (running in Docker)!
