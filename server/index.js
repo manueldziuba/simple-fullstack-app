@@ -31,6 +31,8 @@ const listController = new ListController(config, dataService, validationService
 // GET Verb: list data
 app.get('/api/data', listController.request.bind(listController))
 
+// Serve Angular app (frontend)
+app.use(express.static('../client/dist', {}))
 
 // Invalid routes (404 Not Found)
 app.all('*', (req, res, next) => {
@@ -48,6 +50,7 @@ app.use((err, req, res, next) => {
 // src: https://github.com/mochajs/mocha/issues/1912
 if (!module.parent) {
   // listen on port config.port
+  /* istanbul ignore next */
   app.listen(config.port, () => {
     logger.info(`Server started on port ${config.port}`)
   })
