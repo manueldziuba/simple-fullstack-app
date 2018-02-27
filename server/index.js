@@ -2,6 +2,7 @@
 
 // Get modules
 const path = require('path')
+const cors = require('cors')
 const express = require('express')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
@@ -14,6 +15,12 @@ const ListController = require('./controllers/list.js')
 
 // Create express app
 const app = express()
+
+// Needed middlewares
+app.use(cors({
+  'origin': '*',
+  'methods': 'GET,PATCH,POST,DELETE'
+}))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(methodOverride('X-HTTP-Method-Override'))
 
