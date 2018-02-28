@@ -15,6 +15,9 @@ class CreateController {
   }
 
   storeData(req) {
+    if (req.params && req.params.id) {
+      req.body.id = req.params.id
+    }
     return new Promise((resolve, reject) => {
       // Validate data
       const validationResult = this.validateRequest(req.body)

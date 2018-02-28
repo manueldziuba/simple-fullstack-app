@@ -47,8 +47,7 @@ app.get('/api/data', listController.request.bind(listController))
 app.post('/api/data', createController.request.bind(createController))
 
 // PATCH Verb: update data
-app.patch('/api/data', updateController.request.bind(updateController))
-
+app.patch('/api/data/:id', updateController.request.bind(updateController))
 
 // Invalid routes (404 Not Found)
 app.all('*', (req, res, next) => {

@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const validationService = require('../services/validationService')
 const CreateUpdateController = require('../controllers/create_update')
 
-describe('POST /api/data', done => {
+describe('PATCH /api/data', done => {
   let updateController
   let mock = {}
 
