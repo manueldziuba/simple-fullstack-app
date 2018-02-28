@@ -13,15 +13,13 @@ USER node
 WORKDIR /home/node
 
 # Copy package files into the container, then install all (prod) dependencies for the project
-COPY package*.json ./
-RUN npm install --only=production
+#COPY package*.json /home/node/
+#RUN npm install --only=production
 
 # Copy the application files into the container
-COPY server /home/node/server
-COPY client /home/node/client
+#COPY server /home/node/server
+#COPY client /home/node/client
+#COPY scripts /home/node/scripts
 
 # Expose the port 5000 to the host to be able to open http://localhost:5000 in the browser
 EXPOSE 5000
-
-# Start/run the application
-CMD [ "npm", "start" ]

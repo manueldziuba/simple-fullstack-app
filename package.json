@@ -10,7 +10,8 @@
     "db:createdb": "psql --host docker_postgres_db --user postgres --command \"CREATE DATABASE simple_fullstack_app;\" &>/dev/null",
     "db:loaddata": "node scripts/initializeDatabase.js",
     "start:nodemon": "nodemon server/index.js",
-    "start:docker_debug": "sleep 3 && npm run db:createdb && sleep 1 && npm run db:loaddata && npm run start:nodemon"
+    "start:docker_debug": "sleep 3 && npm run db:createdb && sleep 1 && npm run db:loaddata && npm run start:nodemon",
+    "start:docker": "ng build && sleep 3 && npm run db:createdb && sleep 1 && npm run db:loaddata && npm start"
   },
   "repository": {
     "type": "git",

@@ -5,11 +5,20 @@ services:
     image: 'postgres:latest'
     environment:
       - POSTGRES_PASSWORD=P05tgr3s/pw
+    ports:
+      - "5432:5432"
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
     links:
       - db:docker_postgres_db
+    volumes:
+      - .:/home/node
+    environment:
+      - PGPASSWORD=P05tgr3s/pw
+    command: [ "npm", "run", "start:docker" ]
     depends_on:
       - db
