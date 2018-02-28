@@ -13,6 +13,7 @@ const validationService = require('./services/validationService')
 const DataService = require('./services/DataService.js')
 const ListController = require('./controllers/list.js')
 const CreateUpdateController = require('./controllers/create_update.js')
+const DeleteController = require('./controllers/delete.js')
 
 // Create express app
 const app = express()
@@ -39,6 +40,7 @@ const dataService = new DataService(config.database)
 const listController = new ListController(config, dataService, validationService)
 const createController = new CreateUpdateController(config, dataService, validationService)
 const updateController = new CreateUpdateController(config, dataService, validationService, true)
+const deleteController = new DeleteController(config, dataService, validationService)
 
 // GET Verb: list data
 app.get('/api/data', listController.request.bind(listController))
@@ -48,6 +50,9 @@ app.post('/api/data', createController.request.bind(createController))
 
 // PATCH Verb: update data
 app.patch('/api/data/:id', updateController.request.bind(updateController))
+
+// DELETE Verb: delete data
+app.delete('/api/data/:id', deleteController.request.bind(deleteController))
 
 // Invalid routes (404 Not Found)
 app.all('*', (req, res, next) => {
