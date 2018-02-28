@@ -68,6 +68,22 @@ class DataService {
         })
     })
   }
+
+  deleteData(id) {
+    return new Promise((resolve, reject) => {
+      const sql = `WITH deleted AS (DELETE FROM entries WHERE id = $1 RETURNING *) 
+      SELECT count(*) FROM deleted`
+      const params = [id]
+
+      this.pool.query(sql, params)
+        .then(result => {
+          resolve(result.rows ? (parseInt(result.rows[0].count) === 1) : false)
+        })
+        .catch(err => {
+          reject(err)
+        })
+    })
+  }
 }
 
 module.exports = DataService

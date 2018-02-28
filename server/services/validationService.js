@@ -50,5 +50,9 @@ module.exports = {
     const keys = isUpdate ? { ...t.schemaIdKey, ...t.schemaKeys } : { ...t.schemaKeys }
     const joiSchema = Joi.object().keys(keys)
     return Joi.validate(data, joiSchema, { stripUnknown: true })
+  },
+  validateId(data) {
+    const joiSchema = Joi.object().keys(module.exports.schemaIdKey)
+    return Joi.validate(data, joiSchema, { stripUnknown: true })
   }
 }
