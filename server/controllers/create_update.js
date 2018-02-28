@@ -35,7 +35,7 @@ class CreateController {
     })
   }
 
-  request (req, res, next) {
+  request /* istanbul ignore next */ (req, res, next) {
     this.storeData(req)
       .then(data => {
         res.json({ success:true, data:data })

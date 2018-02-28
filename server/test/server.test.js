@@ -18,15 +18,4 @@ describe('App Server', done => {
       })
   })
 
-  it('should return HTTP status 200 on root (serving Angular app)', done => {
-    request(app)
-      .get('/')
-      .expect(200)
-      .end((err, res) => {
-        assert(res.status === 200, 'HTTP status code should be 200')
-        assert(res.body.indexOf('<head>') !== -1)
-        done()
-      })
-  })
-
 })

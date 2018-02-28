@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/index.js",
-    "test": "istanbul cover _mocha ./server/test/**/*.test.js",
+    "test": "istanbul cover _mocha server/test",
     "build:app": "ng build --prod",
     "db:createdb": "psql --host docker_postgres_db --user postgres --command \"CREATE DATABASE simple_fullstack_app;\" &>/dev/null",
     "db:loaddata": "node scripts/initializeDatabase.js",

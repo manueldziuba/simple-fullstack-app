@@ -12,7 +12,7 @@ const config = require('./config.js')
 const validationService = require('./services/validationService')
 const DataService = require('./services/DataService.js')
 const ListController = require('./controllers/list.js')
-const CreateController = require('./controllers/create.js')
+const CreateUpdateController = require('./controllers/create_update.js')
 
 // Create express app
 const app = express()
@@ -37,8 +37,8 @@ const dataService = new DataService(config.database)
 
 // Controller instances
 const listController = new ListController(config, dataService, validationService)
-const createController = new CreateController(config, dataService, validationService)
-const updateController = new CreateController(config, dataService, validationService, true)
+const createController = new CreateUpdateController(config, dataService, validationService)
+const updateController = new CreateUpdateController(config, dataService, validationService, true)
 
 // GET Verb: list data
 app.get('/api/data', listController.request.bind(listController))

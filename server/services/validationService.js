@@ -30,7 +30,11 @@ module.exports = {
     return module.exports.SORT_ITEMS.includes(sortBy) && ['asc', 'desc'].includes(sortOrder.toLowerCase())
   },
   isValidDate: (value) => {
-    return moment(value).isValid()
+    try {
+      return moment(value).isValid()
+    } catch (err) {
+      return false
+    }
   },
   isDateBefore: (date1, date2) => {
     const date1Valid = module.exports.isValidDate(date1)

@@ -43,16 +43,17 @@ describe('GET /api/data', done => {
   it('should split up filter params into dates', done => {
     const dates = ['2017-03-16', '2017-09-03']
     const params = {
-      sort: 'id',
+      sort: 'id:asc',
       filter: dates.join(',')
     }
 
     listController.getData(params)
       .then(result => {
         const spyCall = mock.dataService.getAllData.getCall(0)
-        assert.equal(spyCall.args[0], 'id', 'First arguments should be "id"')
-        assert.equal(spyCall.args[1], dates[0], `Second arguments should be "${dates[0]}"`)
-        assert.equal(spyCall.args[2], dates[1], `Second arguments should be "${dates[1]}"`)
+        assert.equal(spyCall.args[0], 'id', 'First argument should be "id"')
+        assert.equal(spyCall.args[1], 'asc', 'Second argument should be "asc"')
+        assert.equal(spyCall.args[2], dates[0], `Third argument should be "${dates[0]}"`)
+        assert.equal(spyCall.args[3], dates[1], `Fourth argument should be "${dates[1]}"`)
         done()
       })
       .catch(err => {
