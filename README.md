@@ -22,7 +22,7 @@ To run the app, simple run the following command in the projects root folder:
 
 When Docker has installed all services, you can access the frontend via
 
-	http://localhost:8099/
+	http://localhost:5000/
 
 Do a
 
