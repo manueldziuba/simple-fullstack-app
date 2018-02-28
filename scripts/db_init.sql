@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS %TBLNAME% (
-  "id"         serial PRIMARY KEY,
+  "id"         SERIAL PRIMARY KEY,
   "city"       varchar(50) NOT NULL,
   "start_date" date,
   "end_date"   date,

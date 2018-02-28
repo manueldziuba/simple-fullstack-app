@@ -32,6 +32,11 @@ class DatabaseInitializer {
         await this.pool.query(sql, params)
       }
 
+      // Updating sequence value for serial "id" manually (with setting "id" by ourself, it is not done automatically)
+      const sqlUpdateSeq = `SELECT setval('${tblName}_id_seq', ${jsonData.length})`
+      console.log('Updating SERIAL sequence, SQL: ', sqlUpdateSeq)
+      await this.pool.query(sqlUpdateSeq)
+
       resolve();
     })  
   }

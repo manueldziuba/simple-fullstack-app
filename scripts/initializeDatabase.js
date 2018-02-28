@@ -21,8 +21,8 @@ const readSqlFile = (filePath, dbName, tblName) => {
     try {
       let content = await readFileAsync(filePath, 'utf8')
       content = content
-        .replace('%DBNAME%', dbName)
-        .replace('%TBLNAME%', tblName)
+        .replace(/%DBNAME%/g, dbName)
+        .replace(/%TBLNAME%/g, tblName)
       resolve(content)
     } catch(err) {
       reject(err)
@@ -30,7 +30,7 @@ const readSqlFile = (filePath, dbName, tblName) => {
   })
 }
 
-console.log('Initializing the database......\n')
+console.log('Initializing the database......')
 
 try {
   const pgPool = pg.Pool(config.database)
@@ -40,7 +40,7 @@ try {
     .then(dbInitializer.runSql.bind(dbInitializer))
     .then(dbInitializer.loadData.bind(dbInitializer, tblName, data))
     .then(() => {
-      console.log(`Successfully initialized database structure`)
+      console.log(`Successfully initialized database structure!`)
       process.exit(0)
     })
     .catch(err => {
