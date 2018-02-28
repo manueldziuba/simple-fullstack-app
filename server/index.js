@@ -12,16 +12,15 @@ const config = require('./config.js')
 const validationService = require('./services/validationService')
 const DataService = require('./services/DataService.js')
 const ListController = require('./controllers/list.js')
+const CreateController = require('./controllers/create.js')
 
 // Create express app
 const app = express()
 
 // Needed middlewares
-app.use(cors({
-  'origin': '*',
-  'methods': 'GET,PATCH,POST,DELETE'
-}))
+app.use(cors({ 'origin': '*', 'methods': 'GET,PATCH,POST,DELETE' }))
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
 app.use(methodOverride('X-HTTP-Method-Override'))
 
 // Create logger (using JSON format)
@@ -38,9 +37,13 @@ const dataService = new DataService(config.database)
 
 // Controller instances
 const listController = new ListController(config, dataService, validationService)
+const createController = new CreateController(config, dataService, validationService)
 
 // GET Verb: list data
 app.get('/api/data', listController.request.bind(listController))
+
+// POST Verb: create data
+app.post('/api/data', createController.request.bind(createController))
 
 // Invalid routes (404 Not Found)
 app.all('*', (req, res, next) => {
