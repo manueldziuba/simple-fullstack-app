@@ -38,12 +38,17 @@ const dataService = new DataService(config.database)
 // Controller instances
 const listController = new ListController(config, dataService, validationService)
 const createController = new CreateController(config, dataService, validationService)
+const updateController = new CreateController(config, dataService, validationService, true)
 
 // GET Verb: list data
 app.get('/api/data', listController.request.bind(listController))
 
 // POST Verb: create data
 app.post('/api/data', createController.request.bind(createController))
+
+// PATCH Verb: update data
+app.patch('/api/data', updateController.request.bind(updateController))
+
 
 // Invalid routes (404 Not Found)
 app.all('*', (req, res, next) => {

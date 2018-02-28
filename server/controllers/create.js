@@ -1,24 +1,25 @@
 'use strict';
 
 class CreateController {
-  constructor(config, dataService, validationService) {
+  constructor(config, dataService, validationService, isUpdate = false) {
     this.config = config
     this.dataService = dataService
     this.validationService = validationService
+    this.isUpdate = isUpdate
   }
 
   validateRequest(data) {
-    let result = this.validationService.validateEntryModel(data)
-    return { valid:(result.error === null), data:result.value }
+    const result = this.validationService.validateEntryModel(data, this.isUpdate)
+    const resultError = result.error ? result.error.message : undefined
+    return { valid:(result.error === null), data:result.value, error:resultError }
   }
 
   storeData(req) {
     return new Promise((resolve, reject) => {
       // Validate data
       const validationResult = this.validateRequest(req.body)
-      console.log('validationResult', validationResult)
       if (validationResult.valid === false) {
-        const err = new Error('Invalid params')
+        const err = new Error(`Bad Request; invalid param(s): ${validationResult.error}`)
         err.httpStatusCode = 400
         return reject(err)
       }

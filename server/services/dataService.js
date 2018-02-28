@@ -36,16 +36,18 @@ class DataService {
       let sql = ''
       let paramIncrement = 1
       let params = []
-      const dataKeys = Object.keys(data)
 
-      if (data.id) {
-        delete dataKeys.id
-        sql = `UPDATE entries (${dataKeys
-          .map(key => `"${key}"`)
-          .join(", ")}) VALUES (${dataKeys
-          .map((key, index) => `$${index+1}`)
-          .join(", ")})`
+      let id = data.id || null
+      delete data.id
+      let dataKeys = Object.keys(data)
+
+      if (id) {
+        sql = `UPDATE entries SET ${dataKeys
+          .map((key, index) => `"${key}"=$${index+1}`)
+          .join(", ")}
+          WHERE id = $${dataKeys.length+1}`
         params = dataKeys.map(key => data[key])
+        params.push(id)
       } else {
         sql = `INSERT INTO entries (${dataKeys
           .map(key => `"${key}"`)
@@ -58,7 +60,7 @@ class DataService {
 
       this.pool.query(sql, params)
         .then(result => {
-          const newId = data.id ? data.id : ((result && result.rows) ? result.rows[0].id : null)
+          const newId = id || ((result && result.rows) ? result.rows[0].id : null)
           resolve({ id:newId, ...data })
         })
         .catch(err => {
